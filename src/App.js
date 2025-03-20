@@ -1,24 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
+import MainPage from './components/MainPage';
+import Leaderboard from './components/Leaderboard';
+import History from './components/History';
+import Rules from './components/Rules';
+import Admin from './components/Admin';
+import Profile from './components/Profile';
+import Login from './components/Auth/Login';
+import Signup from './components/Auth/Signup';
+import './styles/main.css';
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <ThemeProvider>
+        <Router>
+          <div className="app-container">
+            <Navbar toggleSidebar={toggleSidebar} />
+            <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+            
+            <div className="content-container">
+              <Routes>
+                <Route path="/" element={<MainPage />} />
+                <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route path="/history" element={<History />} />
+                <Route path="/rules" element={<Rules />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </div>
+          </div>
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

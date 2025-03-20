@@ -32,7 +32,7 @@ function App() {
             
             <div className="content-container">
               <Routes>
-                <Route path="/" element={<MainPage />} />
+                <Route path="/" element={<Login />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
                 <Route path="/history" element={<History />} />
                 <Route path="/rules" element={<Rules />} />

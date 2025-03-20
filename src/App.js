@@ -1,7 +1,6 @@
-// src/App.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, AuthContext } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
@@ -21,7 +20,7 @@ function App() {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-  
+
   return (
     <AuthProvider>
       <ThemeProvider>
@@ -32,7 +31,8 @@ function App() {
             
             <div className="content-container">
               <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/" element={<LoginRedirect />} />
+                <Route path="/main" element={<MainPage />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
                 <Route path="/history" element={<History />} />
                 <Route path="/rules" element={<Rules />} />
@@ -49,5 +49,12 @@ function App() {
     </AuthProvider>
   );
 }
+
+// Component to handle login and redirection
+const LoginRedirect = () => {
+  const { currentUser } = useContext(AuthContext);
+  
+  return currentUser ? <Navigate to="/main" /> : <Login />;
+};
 
 export default App;

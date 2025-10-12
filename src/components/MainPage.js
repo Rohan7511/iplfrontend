@@ -116,12 +116,13 @@ const MainPage = () => {
             <div className="vs">VS</div>
 
             <div className="team">
-              <div className="team-name">{currentGame.team2.name}</div>
+              
               <img
                 src={currentGame.team2.logo || '/placeholder-logo.png'}
                 alt={currentGame.team2.name}
                 className="team-logo"
               />
+              <div className="team-name">{currentGame.team2.name}</div>
             </div>
           </div>
 

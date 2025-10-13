@@ -10,26 +10,25 @@ const History = () => {
 
   useEffect(() => {
     fetchHistory();
-    
-    // Set up WebSocket connection for real-time updates
+
     const socket = new WebSocket(process.env.REACT_APP_WS_URL || 'ws://localhost:5000');
-    
+
     socket.onopen = () => {
       console.log('WebSocket connected');
     };
-    
+
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      
+
       if (data.type === 'HISTORY_UPDATE' && data.userId === currentUser?._id) {
         setPredictions(data.predictions);
       }
     };
-    
+
     socket.onerror = (error) => {
       console.error('WebSocket error:', error);
     };
-    
+
     return () => {
       socket.close();
     };
@@ -37,7 +36,7 @@ const History = () => {
 
   const fetchHistory = async () => {
     if (!currentUser) return;
-    
+
     try {
       setLoading(true);
       const res = await api.get('/predictions/user');
@@ -74,7 +73,7 @@ const History = () => {
   return (
     <div className="history-container">
       <h1>Prediction History</h1>
-      
+
       {predictions.length === 0 ? (
         <div className="no-data">You haven't made any predictions yet</div>
       ) : (
@@ -93,31 +92,38 @@ const History = () => {
             <tbody>
               {predictions.map((prediction) => (
                 <tr key={prediction._id}>
-                  <td>{new Date(prediction.game.gameTime).toLocaleDateString()}</td>
-                  <td>{prediction.game.team1.name}</td>
-                  <td>{prediction.game.team2.name}</td>
                   <td>
-                    {prediction.teamSelected === prediction.game.team1._id 
-                      ? prediction.game.team1.name 
-                      : prediction.game.team2.name}
+                    {prediction?.game?.gameTime
+                      ? new Date(prediction.game.gameTime).toLocaleDateString()
+                      : 'N/A'}
+                  </td>
+                  <td>{prediction?.game?.team1?.name || 'N/A'}</td>
+                  <td>{prediction?.game?.team2?.name || 'N/A'}</td>
+                  <td>
+                    {prediction?.teamSelected
+                      ? prediction.teamSelected === prediction?.game?.team1?._id
+                        ? prediction?.game?.team1?.name
+                        : prediction?.game?.team2?.name
+                      : 'N/A'}
                   </td>
                   <td>
-                    {prediction.game.winner 
-                      ? (prediction.game.winner === prediction.game.team1._id 
-                        ? prediction.game.team1.name
-                        : prediction.game.team2.name)
+                    {prediction?.game?.winner
+                      ? prediction.game.winner === prediction?.game?.team1?._id
+                        ? prediction?.game?.team1?.name
+                        : prediction?.game?.team2?.name
                       : 'Not decided'}
                   </td>
                   <td>
-                    {!prediction.game.winner
+                    {!prediction?.game?.winner
                       ? '-'
-                      : prediction.teamSelected === prediction.game.winner
+                      : prediction.teamSelected === prediction?.game?.winner
                         ? <span className="correct">Correct</span>
                         : <span className="wrong">Wrong</span>}
                   </td>
                 </tr>
               ))}
             </tbody>
+
           </table>
         </div>
       )}

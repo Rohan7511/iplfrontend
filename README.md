@@ -1,70 +1,122 @@
-# Getting Started with Create React App
+# 🏆 Predict the Winner
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A real-time match prediction web application where users predict match outcomes, earn points for correct predictions, and compete on a live leaderboard.  
+Built with a strong focus on **fair play, simplicity, and reducing human error** in tracking predictions and results.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+### 👤 User Features
+- Secure authentication (login/signup)
+- Predict the winner of the current match
+- One prediction per game (cannot be changed)
+- View personal prediction history
+- See match results and prediction outcomes
+- Track performance (points, correct & wrong predictions)
+- Live leaderboard updates
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🧑‍💼 Admin Features
+- Create new games (select teams & match time)
+- Declare match winners
+- Control which game is active
+- Automatic leaderboard & history updates after results
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### ⚡ Real-Time Updates
+- Live leaderboard updates
+- Instant history updates after results
+- WebSocket-based event broadcasting
 
-### `npm test`
+### 🌗 UI & Experience
+- Clean and responsive UI
+- Dark mode support
+- Role-based navigation (Admin/User)
+- Error handling and success feedback
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🛠️ Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Frontend
+- React
+- React Router
+- Context API (Auth & Theme)
+- WebSockets for real-time updates
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Backend
+- REST APIs for games, predictions, leaderboard, and authentication
+- WebSocket server for live updates
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Database
+- Stores users, teams, games, predictions, and scores
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📂 Project Structure (Frontend)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+src/
+│── components/
+│ ├── Admin.js
+│ ├── History.js
+│ ├── Leaderboard.js
+│ ├── MainPage.js
+│ ├── Navbar.js
+│ ├── Profile.js
+│ ├── Rules.js
+│ └── Sidebar.js
+│
+│── contexts/
+│ ├── AuthContext.js
+│ └── ThemeContext.js
+│
+│── services/
+│ └── api.js
+│
+└── App.js
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🔑 Authentication & Roles
 
-## Learn More
+- **User**
+  - Can predict games
+  - View history and leaderboard
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Admin**
+  - Can create games
+  - Declare winners
+  - Access admin dashboard
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Admin routes are protected and hidden from normal users.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🎯 Scoring System
 
-### Analyzing the Bundle Size
+- ✅ Correct Prediction: **+10 points**
+- ❌ Wrong Prediction: **0 points**
+- Only one prediction allowed per game
+- Predictions must be made **before game start time**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## 🧠 Game Flow
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. Admin creates a match and marks it as current  
+2. Users predict the winner before the game starts  
+3. Admin declares the winner after the game  
+4. System updates:
+   - User scores
+   - Leaderboard
+   - Prediction history
+   - Real-time clients via WebSocket
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🖥️ Environment Variables
 
-### Deployment
+Create a `.env` file in the frontend root:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```env
+REACT_APP_API_URL=http://localhost:5000/api
+REACT_APP_WS_URL=ws://localhost:5000

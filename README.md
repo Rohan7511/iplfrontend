@@ -50,31 +50,7 @@ Built with a strong focus on **fair play, simplicity, and reducing human error**
 ### Database
 - Stores users, teams, games, predictions, and scores
 
----
 
-## 📂 Project Structure (Frontend)
-
-src/
-│── components/
-│ ├── Admin.js
-│ ├── History.js
-│ ├── Leaderboard.js
-│ ├── MainPage.js
-│ ├── Navbar.js
-│ ├── Profile.js
-│ ├── Rules.js
-│ └── Sidebar.js
-│
-│── contexts/
-│ ├── AuthContext.js
-│ └── ThemeContext.js
-│
-│── services/
-│ └── api.js
-│
-└── App.js
-
----
 
 ## 🔑 Authentication & Roles
 
